@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use Google\Client;
 use Google\Service\Calendar;

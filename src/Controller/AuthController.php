@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Controller;
+
+use App\Model\GoogleClient;
 
 class AuthController {
     private GoogleClient $googleClient;
