@@ -34,10 +34,10 @@ class CalendarController {
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $outerMatches = $_POST["outerMatches"];
+            $awayMatches = $_POST["awayMatches"];
             $homeMatches = $_POST["homeMatches"];
+
             $currentMatches = $_POST["currentMatches"];
-            $playoffMatches = $_POST["playoffMatches"];
 
             $matches = [];
 

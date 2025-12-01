@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
+        form { display: flex; flex-direction: column; gap: 1rem; background: #f9f9f9; padding: 2rem; border-radius: 8px; }
+        input, button { padding: 10px; font-size: 1rem; }
+        button { background: red; color: white; border: none; cursor: pointer; }
+        .success { background: #d4edda; color: red; padding: 1rem; border-radius: 4px; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+<h1>Add Event</h1>
+
+<?php if (isset($message)): ?>
+<div class="success"><?php echo $message; ?></div>
+<?php endif; ?>
+
+<form action="/add-event" method="POST">
+
+    <label for="homeMatches">Zápasy doma</label><br>
+    <input type="checkbox" id="homeMatches" name="homeMatches" value="homeMatches">
+
+    <label for="awayMatches">Zápasy venku</label><br>
+    <input type="checkbox" id="awayMatches" name="awayMatches" value="awayMatches">
+
+    <label for="currentMatches">Pouze budoucí zápasy</label><br>
+    <input type="checkbox" id="currentMatches" name="currentMatches" value="currentMatches">
+
+    <button type="submit">Přidat do kalendáře</button>
+</form>
+
+<p><a href="/logout">Odhlásit se</a></p>
+</body>
+</html>
