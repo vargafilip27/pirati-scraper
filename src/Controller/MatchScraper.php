@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Model\Match;
+use App\Model\MatchEvent;
+use DateTime;
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -11,10 +12,14 @@ class MatchScraper {
 
     public function __construct() {
         $this->client = new Client([
-            'timeout'  => 5.0,
-            // Mimic a real browser to avoid being blocked
+            'base_uri' => 'https://www.piratichomutov.cz',
+            'timeout'  => 10.0,
+
+            // Force IPv4
+            'force_ip_resolve' => 'v4',
+
             'headers' => [
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             ]
         ]);
     }
@@ -35,25 +40,48 @@ class MatchScraper {
                 $date = $profile->filter(".info")->text();
 
                 // Convert czech date format into DateTime
-                if (preg_match('/(\d{1,2}\.\d{1,2}\.\d{4})/', $date, $matches)) {
-                    $cleanDateString = $matches[1]; // This becomes "6.12.2025"
+                if (preg_match('/(\d{1,2}\.\d{1,2}\.\d{4})/', $date, $matching)) {
+                    $dateString = $matching[1];     // This becomes "6.12.2025"
+                    $dateObject = DateTime::createFromFormat("j.n.Y", $dateString);
 
-                    $time = $profile->filter(".score")->text();
-                    $dateObject = \DateTime::createFromFormat('j.n.Y H:i', $cleanDateString . " " . $time);
+                    $now = new DateTime();  // Current date
 
-                    // Create new match and add it into results
-                    $matches[] = new Match($summary, $dateObject);
+                    if ($dateObject > $now) {
+                        $time = $profile->filter(".score")->text();
+
+                        $dateTimeObject = DateTime::createFromFormat("j.n.Y H:i", $dateString . " " . $time);
+
+                        // Create new match and add it into results
+                        $matches[] = new MatchEvent($summary, $dateTimeObject);
+                    }
                 }
             });
         }
 
         if ($awayMatches) {
             $crawler->filter(".venku")->each(function (Crawler $profile) use (&$matches) {
+                // venku - teams - names - long (e.g. VHK ROBE Vsetín - Piráti Chomutov)
                 $summary = $profile->filter(".long")->text();
-                $date = $profile->filter(".info")->text();
-                $time =
 
-                $matches[] = new Match($summary, $date);
+                // venku - teams - info (e.g. 30.kolo, st 10.12.2025)
+                $date = $profile->filter(".info")->text();
+
+                // Convert czech date format into DateTime
+                if (preg_match('/(\d{1,2}\.\d{1,2}\.\d{4})/', $date, $matching)) {
+                    $dateString = $matching[1];     // This becomes "10.12.2025"
+                    $dateObject = DateTime::createFromFormat("j.n.Y", $dateString);
+
+                    $now = new DateTime();  // Current date
+
+                    if ($dateObject > $now) {
+                        $time = $profile->filter(".score")->text();
+
+                        $dateTimeObject = DateTime::createFromFormat("j.n.Y H:i", $dateString . " " . $time);
+
+                        // Create new match and add it into results
+                        $matches[] = new MatchEvent($summary, $dateTimeObject);
+                    }
+                }
             });
         }
 
