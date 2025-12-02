@@ -34,22 +34,29 @@ class CalendarController {
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $awayMatches = $_POST["awayMatches"];
-            $homeMatches = $_POST["homeMatches"];
+            $awayMatches = isset($_POST["awayMatches"]);
+            $homeMatches = isset($_POST["homeMatches"]);
+            $currentMatches = isset($_POST["currentMatches"]);
 
-            $currentMatches = $_POST["currentMatches"];
+            $scraper = new MatchScraper();
+            $url = "https://www.piratichomutov.cz/zapas.asp?sezona=2026";
 
-            $matches = [];
+            $matches = $scraper->getMatches($url, $awayMatches, $homeMatches);
 
-            // scrape matches -- TODO
 
             $service = new Calendar($this->googleClient->getClient());
 
             foreach ($matches as $match) {
                 $event = new Event([
                     'summary' => $match->getSummary(),
-                    'start' => new EventDateTime(['dateTime' => $match->getStartDateTime()]),
-                    'end' => new EventDateTime(['dateTime' => $match->getEndDateTime()]),
+                    'start' => new EventDateTime([
+                        'dateTime' => $match->getStartDateTime(),
+                        'timeZone' => 'Europe/Prague'
+                    ]),
+                    'end' => new EventDateTime([
+                        'dateTime' => $match->getEndDateTime(),
+                        'timeZone' => 'Europe/Prague'
+                    ]),
                 ]);
 
                 $calendarId = 'primary';

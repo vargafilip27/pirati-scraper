@@ -9,7 +9,7 @@ class Match {
     private DateTime $startDateTime;
     private DateTime $endDateTime;
 
-    public function __construct($summary, $startDateTimeString, $endDateTimeString) {
+    public function __construct($summary, $startDateTimeString) {
         $this->summary = $summary;
         // TODO
     }
