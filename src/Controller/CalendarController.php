@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Model\GoogleClient;
 use App\View\AddEvent;
 use App\View\Login;
+use Exception;
 use Google\Service\Calendar;
 use Google\Service\Calendar\Event;
 use Google\Service\Calendar\EventDateTime;
@@ -36,15 +37,14 @@ class CalendarController {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $awayMatches = isset($_POST["awayMatches"]);
             $homeMatches = isset($_POST["homeMatches"]);
-            $currentMatches = isset($_POST["currentMatches"]);
 
             $scraper = new MatchScraper();
-            $url = "https://www.piratichomutov.cz/zapas.asp?sezona=2026";
+            $url = "https://www.hokej.cz/maxa-liga/zapasy?t=1xbr%3C%21doctype+html+public&matchList-filter-season=2025&matchList-filter-competition=7415&matchList-filter-team=822";
 
-            $matches = $scraper->getMatches($url, $awayMatches, $homeMatches);
-
+            $matches = $scraper->getMatches($url, $homeMatches, $awayMatches);
 
             $service = new Calendar($this->googleClient->getClient());
+            $calendarId = 'primary';
 
             foreach ($matches as $match) {
                 $event = new Event([
@@ -59,8 +59,10 @@ class CalendarController {
                     ]),
                 ]);
 
-                $calendarId = 'primary';
-                $event = $service->events->insert($calendarId, $event);
+                try {
+                    $service->events->insert($calendarId, $event);
+                }
+                catch (Exception $exception) {}
             }
         }
     }

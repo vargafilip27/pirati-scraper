@@ -22,27 +22,27 @@ switch ($uri) {
         break;
 
     case '/login':
-        $controller = new AuthController($client);
-        $controller->login();
+        $authController = new AuthController($client);
+        $authController->login();
         break;
 
     case '/callback':
-        $controller = new AuthController($client);
-        $controller->callback();
+        $authController = new AuthController($client);
+        $authController->callback();
         break;
 
     case '/add-event':
-        $controller = new CalendarController($client);
+        $calendarController = new CalendarController($client);
 
         // POST - add an event
         // GET - show form
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') $controller->createEvent();
-        else $controller->showEventForm();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') $calendarController->createEvent();
+        else $calendarController->showEventForm();
         break;
 
     case '/logout':
-        $controller = new AuthController($client);
-        $controller->logout();
+        $authController = new AuthController($client);
+        $authController->logout();
         break;
 
     default:
