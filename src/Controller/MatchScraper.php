@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
 class MatchScraper {
-    private Client $client;
+    private $client;
     private $season = [
         0 => 2025,  // July - December
         1 => 2026   // January - June

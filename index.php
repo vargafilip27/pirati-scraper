@@ -11,14 +11,19 @@ session_start();
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 
-$uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+$basePath = '/pirati';
+$requestUri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+$route = str_replace($basePath, '', $requestUri);
+
+// Ensure the route is not empty (if visiting /pirati, route might be empty string)
+if ($route === '') $route = '/';
 
 $client = new GoogleClient();
 
 // routing
-switch ($uri) {
+switch ($route) {
     case "/":
-        header("Location: /add-event");
+        header("Location: /pirati/add-event");
         break;
 
     case '/login':

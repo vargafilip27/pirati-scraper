@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Model\GoogleClient;
 
 class AuthController {
-    private GoogleClient $googleClient;
+    private $googleClient;
 
     public function __construct(GoogleClient $googleClient) {
         $this->googleClient = $googleClient;
@@ -23,7 +23,7 @@ class AuthController {
 
             if (!isset($token['error'])) {
                 $_SESSION['access_token'] = $token;
-                header('Location: /addEvent');
+                header('Location: /pirati/add-event');
                 exit;
             }
         }

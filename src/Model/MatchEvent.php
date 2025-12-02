@@ -5,9 +5,9 @@ namespace App\Model;
 use DateTime;
 
 class MatchEvent {
-    private string $summary;
-    private DateTime $startDateTime;
-    private DateTime $endDateTime;
+    private $summary;
+    private $startDateTime;
+    private $endDateTime;
 
     public function __construct(string $summary, DateTime $startDateTime) {
         $this->summary = $summary;

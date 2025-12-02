@@ -13,12 +13,21 @@
         }
     ],
     "require": {
-        "symfony/browser-kit": "^8.0",
-        "symfony/http-client": "^8.0",
-        "symfony/css-selector": "^8.0",
-        "google/apiclient": "^2.18",
-        "vlucas/phpdotenv": "^5.6",
-        "guzzlehttp/guzzle": "^7.10",
-        "symfony/dom-crawler": "^8.0"
+        "php": ">=7.3",
+        "symfony/browser-kit": "^5.4",
+        "symfony/http-client": "^5.4",
+        "symfony/css-selector": "^5.4",
+        "symfony/dom-crawler": "^5.4",
+        "google/apiclient": "^2.14",
+        "vlucas/phpdotenv": "^5.5",
+        "guzzlehttp/guzzle": "^7.5"
+    },
+    "config": {
+        "platform": {
+            "php": "7.3.27"
+        },
+        "allow-plugins": {
+            "symfony/flex": true
+        }
     }
 }

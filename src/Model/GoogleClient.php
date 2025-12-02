@@ -6,7 +6,7 @@ use Google\Client;
 use Google\Service\Calendar;
 
 class GoogleClient {
-    private Client $client;
+    private $client;
 
     public function __construct() {
         $this->client = new Client();
