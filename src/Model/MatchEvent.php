@@ -18,15 +18,15 @@ class MatchEvent {
         $this->endDateTime->modify("+2 hours");
     }
 
-    public function getSummary() {
+    public function getSummary(): string {
         return $this->summary;
     }
 
-    public function getStartDateTime() {
-        return $this->startDateTime;
+    public function getStartDateTime(): string {
+        return $this->startDateTime->format(DateTime::RFC3339);
     }
 
-    public function getEndDateTime() {
-        return $this->endDateTime;
+    public function getEndDateTime(): string {
+        return $this->endDateTime->format(DateTime::RFC3339);
     }
 }

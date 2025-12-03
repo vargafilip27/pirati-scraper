@@ -18,6 +18,7 @@ class CalendarController {
     public function createEvent() {
         if (!$this->googleClient->isLoggedIn()) {
             header("Location: /pirati");
+            exit;
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -30,7 +31,7 @@ class CalendarController {
             $matches = $scraper->getMatches($url, $homeMatches, $awayMatches);
 
             $service = new Calendar($this->googleClient->getClient());
-            $calendarId = 'primary';
+            $calendarId = "primary";
 
             foreach ($matches as $match) {
                 $event = new Event([
@@ -48,7 +49,9 @@ class CalendarController {
                 try {
                     $service->events->insert($calendarId, $event);
                 }
-                catch (Exception $exception) {}
+                catch (Exception $exception) {
+                    echo "Error adding event: " . $exception->getMessage() . "<br>";
+                }
             }
         }
     }

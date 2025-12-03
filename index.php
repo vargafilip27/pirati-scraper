@@ -46,7 +46,8 @@ switch ($route) {
             $controller = new CalendarController($client);
             $controller->createEvent();
         }
-        else header("Location: $basePath/");
+
+        header("Location: $basePath/");
         break;
 
     case "/logout":
