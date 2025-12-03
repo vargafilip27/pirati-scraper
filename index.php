@@ -32,19 +32,19 @@ switch ($route) {
         break;
 
     case "/login":
-        $auth = new AuthController($client);
-        $auth->login();
+        $authController = new AuthController($client);
+        $authController->login();
         break;
 
     case "/callback":
-        $auth = new AuthController($client);
-        $auth->callback();
+        $authController = new AuthController($client);
+        $authController->callback();
         break;
 
     case "/add-event":
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller = new CalendarController($client);
-            $controller->createEvent();
+            $calendarController = new CalendarController($client);
+            $calendarController->createEvent();
         }
 
         header("Location: $basePath/");

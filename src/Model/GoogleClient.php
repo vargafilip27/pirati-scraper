@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Google\Client;
 use Google\Service\Calendar;
+use Google\Service\Oauth2;
 
 class GoogleClient {
     private $client;
@@ -22,6 +23,12 @@ class GoogleClient {
 
     public function getClient(): Client {
         return $this->client;
+    }
+
+    public function getEmail(): string {
+        $oAuth2 = new Oauth2($this->client);
+        $userInfo = $oAuth2->userinfo->get();
+        return $userInfo->getEmail();
     }
 
     public function isLoggedIn(): bool {

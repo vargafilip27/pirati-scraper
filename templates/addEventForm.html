@@ -19,6 +19,11 @@
 <div class="success"><?php echo $message; ?></div>
 <?php endif; ?>
 
+<?php
+    $email = $client->getEmail()
+    echo "<p>Přihlášen $client</p>"
+?>
+
 <form action="/pirati/add-event" method="POST">
 
     <label for="homeMatches">Zápasy doma</label><br>
