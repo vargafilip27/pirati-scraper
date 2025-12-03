@@ -67,7 +67,7 @@ class MatchScraper {
                             $matches[] = new MatchEvent("$homeTeam - $awayTeam", $dateObject);
                         }
                         else if ($awayMatches && $awayTeam == "Piráti Chomutov" && $dateObject) {
-                            $matches[] = new MatchEvent("$awayTeam - $homeTeam", $dateObject);
+                            $matches[] = new MatchEvent("$homeTeam - $awayTeam", $dateObject);
                         }
                     }
                 }

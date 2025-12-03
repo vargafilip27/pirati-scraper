@@ -17,4 +17,16 @@ class MatchEvent {
         $this->endDateTime = clone $startDateTime;
         $this->endDateTime->modify("+2 hours");
     }
+
+    public function getSummary() {
+        return $this->summary;
+    }
+
+    public function getStartDateTime() {
+        return $this->startDateTime;
+    }
+
+    public function getEndDateTime() {
+        return $this->endDateTime;
+    }
 }
