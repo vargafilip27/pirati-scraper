@@ -23,7 +23,7 @@ class AuthController {
 
             if (!isset($token['error'])) {
                 $_SESSION['access_token'] = $token;
-                header('Location: /pirati/add-event');
+                header('Location: /pirati');
                 exit;
             }
         }
@@ -36,7 +36,7 @@ class AuthController {
     public function logout() {
         unset($_SESSION['access_token']);
         session_destroy();
-        header('Location: /');
+        header('Location: /pirati');
         exit;
     }
 }

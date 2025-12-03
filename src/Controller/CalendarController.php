@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Model\GoogleClient;
-use App\View\AddEvent;
-use App\View\Login;
 use Exception;
 use Google\Service\Calendar;
 use Google\Service\Calendar\Event;
@@ -17,21 +15,9 @@ class CalendarController {
         $this->googleClient = $googleClient;
     }
 
-    public function showEventForm() {
-        if (!$this->googleClient->isLoggedIn()) {
-            $login = new Login();
-            $login->showLoginForm();
-        }
-        else {
-            $addEvent = new AddEvent();
-            $addEvent->showEventForm();
-        }
-    }
-
     public function createEvent() {
         if (!$this->googleClient->isLoggedIn()) {
-            $login = new Login();
-            $login->showLoginForm();
+            header("Location: /pirati");
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {

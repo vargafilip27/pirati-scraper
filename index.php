@@ -10,6 +10,7 @@ require __DIR__ . DIRECTORY_SEPARATOR . "vendor" . DIRECTORY_SEPARATOR . "autolo
 session_start();
 
 $dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $basePath = '/pirati';
 $requestUri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
@@ -20,34 +21,41 @@ if ($route === '') $route = '/';
 
 $client = new GoogleClient();
 
-// routing
 switch ($route) {
     case "/":
-        header("Location: /pirati/add-event");
+    case "":
+        // Check login status
+        if (!$client->isLoggedIn()) {
+            require __DIR__ . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "loginForm.html";
+        }
+        else require __DIR__ . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "addEventForm.html";
         break;
 
-    case '/login':
-        $authController = new AuthController($client);
-        $authController->login();
+    case "/login":
+        $auth = new AuthController($client);
+        $auth->login();
         break;
 
-    case '/callback':
-        $authController = new AuthController($client);
-        $authController->callback();
+    case "/callback":
+        $auth = new AuthController($client);
+        $auth->callback();
         break;
 
-    case '/add-event':
-        $calendarController = new CalendarController($client);
-
-        // POST - add an event
-        // GET - show form
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') $calendarController->createEvent();
-        else $calendarController->showEventForm();
+    case "/add-event":
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller = new CalendarController($client);
+            $controller->createEvent();
+        }
+        else header("Location: $basePath/");
         break;
 
-    case '/logout':
-        $authController = new AuthController($client);
-        $authController->logout();
+    case "/logout":
+        $auth = new AuthController($client);
+        $auth->logout();
+        break;
+
+    case "/privacy":
+        require __DIR__ . '/templates/privacy.html';
         break;
 
     default:
