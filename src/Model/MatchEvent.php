@@ -10,7 +10,7 @@ class MatchEvent {
     private $endDateTime;
     private $homeMatch;
 
-    public function __construct(string $summary, DateTime $startDateTime, $homeMatch) {
+    public function __construct(string $summary, DateTime $startDateTime, bool $homeMatch) {
         $this->summary = $summary;
 
         $this->startDateTime = $startDateTime;

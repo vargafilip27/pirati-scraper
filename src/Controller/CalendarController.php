@@ -34,7 +34,10 @@ class CalendarController {
             $calendarId = "primary";
 
             foreach ($matches as $match) {
+                $matchId = md5($match->getSummary() . $match->getStartDateTime());
+
                 $event = new Event([
+                    'id' => $matchId,
                     'summary' => $match->getSummary(),
                     'start' => new EventDateTime([
                         'dateTime' => $match->getStartDateTime(),
@@ -53,8 +56,9 @@ class CalendarController {
                 try {
                     $service->events->insert($calendarId, $event);
                 }
-                catch (Exception $exception) {
-                    echo "Error adding event: " . $exception->getMessage() . "<br>";
+                catch (Exception $e) {
+                    if ($e->getCode() == 409) {}    // Duplicate event
+                    else echo "Error adding event: " . $e->getMessage() . "<br>";
                 }
             }
         }
