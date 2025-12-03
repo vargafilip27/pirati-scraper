@@ -64,10 +64,10 @@ class MatchScraper {
                         $dateObject = DateTime::createFromFormat('d.m.Y H:i', $fullDateString);
 
                         if ($homeMatches && $homeTeam == "Piráti Chomutov" && $dateObject) {
-                            $matches[] = new MatchEvent("$homeTeam - $awayTeam", $dateObject);
+                            $matches[] = new MatchEvent("$homeTeam - $awayTeam", $dateObject, true);
                         }
                         else if ($awayMatches && $awayTeam == "Piráti Chomutov" && $dateObject) {
-                            $matches[] = new MatchEvent("$homeTeam - $awayTeam", $dateObject);
+                            $matches[] = new MatchEvent("$homeTeam - $awayTeam", $dateObject, false);
                         }
                     }
                 }

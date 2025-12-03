@@ -46,6 +46,10 @@ class CalendarController {
                     ]),
                 ]);
 
+                if ($match->isHomeMatch()) {
+                    $event->setLocation("ROCKNET ARÉNA, Mostecká 5773, 430 01 Chomutov");
+                }
+
                 try {
                     $service->events->insert($calendarId, $event);
                 }
