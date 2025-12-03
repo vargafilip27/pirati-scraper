@@ -57,7 +57,15 @@ class CalendarController {
                     $service->events->insert($calendarId, $event);
                 }
                 catch (Exception $e) {
-                    if ($e->getCode() == 409) {}    // Duplicate event
+                    if ($e->getCode() == 409) {     // Duplicate event
+                        // Check if duplicate event was cancelled
+                        $existingEvent = $service->events->get($calendarId, $matchId);
+
+                        if ($existingEvent->getStatus() === "cancelled") {
+                            $event->setStatus('confirmed');
+                            $service->events->update($calendarId, $matchId, $event);
+                        }
+                    }
                     else echo "Error adding event: " . $e->getMessage() . "<br>";
                 }
             }
