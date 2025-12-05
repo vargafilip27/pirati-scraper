@@ -26,9 +26,9 @@ switch ($route) {
     case "":
         // Check login status
         if (!$client->isLoggedIn()) {
-            require __DIR__ . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "loginForm.html";
+            require __DIR__ . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "View" . DIRECTORY_SEPARATOR . "loginForm.html";
         }
-        else require __DIR__ . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "addEventForm.html";
+        else require __DIR__ . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "View" . DIRECTORY_SEPARATOR . "addEventForm.php";
         break;
 
     case "/login":
@@ -56,7 +56,7 @@ switch ($route) {
         break;
 
     case "/privacy":
-        require __DIR__ . '/templates/privacy.html';
+        require __DIR__ . "src" . DIRECTORY_SEPARATOR . "View" . DIRECTORY_SEPARATOR . "privacy.html";
         break;
 
     default:

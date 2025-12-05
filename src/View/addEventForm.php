@@ -31,9 +31,11 @@
     </style>
 </head>
 <body>
-<h1>Add Event</h1>
+<h1>Přidat zápasy do kalendáře</h1>
 
-<?php if (isset($message)): ?>
+<?php
+
+if (isset($message)): ?>
 <div class="success"><?php echo $message; ?></div>
 <?php endif; ?>
 
@@ -54,7 +56,18 @@
         <label for="awayMatches">Zápasy venku</label>
     </div>
 
-    <button type="submit">Přidat do kalendáře</button>
+<?php
+    use Google\Service\Calendar;
+
+    $token = $client->getClient()->getAccessToken();
+    $scopeString = $token["scope"] ?? "";
+    $scopes = explode(' ', $scopeString);
+
+    if (in_array(Calendar::CALENDAR_EVENTS, $scopes)) {
+        echo "<button type='submit'>Přidat do kalendáře</button>";
+    }
+    else echo "<p>Nemáte povoleny úpravy v kalendáři. Odhlašte se, prosím, a při opětovném přihlášení povolte přístup.</p>"
+?>
 </form>
 
 <p><a href="/pirati/logout">Odhlásit se</a></p>
