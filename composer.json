@@ -20,7 +20,8 @@
         "symfony/dom-crawler": "^5.4",
         "google/apiclient": "^2.14",
         "vlucas/phpdotenv": "^5.5",
-        "guzzlehttp/guzzle": "^7.5"
+        "guzzlehttp/guzzle": "^7.5",
+        "twig/twig": "3.11.3"
     },
     "config": {
         "platform": {
